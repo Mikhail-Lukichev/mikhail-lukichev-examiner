@@ -7,19 +7,18 @@ import org.springframework.stereotype.Service;
 import pro.sky.examiner.exception.NoQuestionsException;
 import pro.sky.examiner.model.Question;
 
-import java.util.*;
-
-import static java.util.Objects.isNull;
+import java.util.List;
+import java.util.Random;
 
 @Service
 @Component
-@Qualifier("JavaQuestionService")
-public class JavaQuestionService implements QuestionService {
+@Qualifier("MathQuestionService")
+public class MathQuestionService implements QuestionService {
 
     private QuestionRepository questionRepository;
 
     @Autowired
-    public JavaQuestionService(@Qualifier("JavaQuestionRepository") QuestionRepository questionRepository) {
+    public MathQuestionService(@Qualifier("MathQuestionRepository") QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
 
@@ -54,13 +53,13 @@ public class JavaQuestionService implements QuestionService {
     }
 
     public void addTestQuestions() {
-        questionRepository.add("Java Test Question 1", "Java Test Answer 1");
-        questionRepository.add("Java Test Question 2", "Java Test Answer 2");
-        questionRepository.add("Java Test Question 3", "Java Test Answer 3");
-        questionRepository.add("Java Test Question 4", "Java Test Answer 4");
-        questionRepository.add("Java Test Question 5", "Java Test Answer 5");
-        questionRepository.add("Java Test Question 6", "Java Test Answer 6");
-        questionRepository.add("Java Test Question 7", "Java Test Answer 7");
+        questionRepository.add("Math Test Question 1", "Math Test Answer 1");
+        questionRepository.add("Math Test Question 2", "Math Test Answer 2");
+        questionRepository.add("Math Test Question 3", "Math Test Answer 3");
+        questionRepository.add("Math Test Question 4", "Math Test Answer 4");
+        questionRepository.add("Math Test Question 5", "Math Test Answer 5");
+        questionRepository.add("Math Test Question 6", "Math Test Answer 6");
+        questionRepository.add("Math Test Question 7", "Math Test Answer 7");
     }
 
     public int getSize() {

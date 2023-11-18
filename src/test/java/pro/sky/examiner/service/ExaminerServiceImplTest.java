@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.examiner.model.Question;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,7 +16,10 @@ import static org.mockito.Mockito.when;
 class ExaminerServiceImplTest {
 
     @Mock
-    private QuestionService questionService;
+    private QuestionService javaQuestionService;
+
+    @Mock
+    private QuestionService mathQuestionService;
 
     @InjectMocks
     private ExaminerServiceImpl examinerService;
@@ -27,21 +29,31 @@ class ExaminerServiceImplTest {
         //Data preparation
 
         //Expected result preparation
-        when(questionService.getSize()).thenReturn(4);
-        when(questionService.getRandomQuestion()).thenReturn(
-                new Question("test question1", "test answer1"),
-                new Question("test question2", "test answer2"),
-                new Question("test question3", "test answer3"),
-                new Question("test question4", "test answer4")
+        when(javaQuestionService.getSize()).thenReturn(4);
+        when(javaQuestionService.getRandomQuestion()).thenReturn(
+                new Question("java test question1", "java test answer1"),
+                new Question("java test question2", "java test answer2"),
+                new Question("java test question3", "java test answer3"),
+                new Question("java test question4", "java test answer4")
         );
+        when(mathQuestionService.getSize()).thenReturn(4);
+        when(mathQuestionService.getRandomQuestion()).thenReturn(
+                new Question("math test question1", "math test answer1"),
+                new Question("math test question2", "math test answer2"),
+                new Question("math test question3", "math test answer3"),
+                new Question("math test question4", "math test answer4")
+        );
+
         List<Question> expectedResult = List.of(
-                new Question("test question1", "test answer1"),
-                new Question("test question2", "test answer2"),
-                new Question("test question3", "test answer3")
+                new Question("java test question1", "java test answer1"),
+                new Question("java test question2", "java test answer2"),
+                new Question("math test question1", "math test answer1"),
+                new Question("math test question2", "math test answer2"),
+                new Question("math test question3", "math test answer3")
         );
 
         //Test execution
-        List<Question> actualResult = examinerService.getQuestions(3);
+        List<Question> actualResult = examinerService.getQuestions(2);
         assertEquals(expectedResult,actualResult);
     }
 }

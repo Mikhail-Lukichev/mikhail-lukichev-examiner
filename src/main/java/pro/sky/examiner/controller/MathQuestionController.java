@@ -12,12 +12,12 @@ import pro.sky.examiner.service.QuestionService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/exam/java")
-public class JavaQuestionController {
+@RequestMapping("/exam/math")
+public class MathQuestionController {
     private final QuestionService service;
 
     @Autowired
-    public JavaQuestionController(@Qualifier("JavaQuestionService") QuestionService service) {
+    public MathQuestionController(@Qualifier("MathQuestionService") QuestionService service) {
         this.service = service;
     }
 
