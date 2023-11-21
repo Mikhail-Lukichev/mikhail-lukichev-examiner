@@ -71,21 +71,4 @@ public class JavaQuestionService implements QuestionService{
 
         return arrayQuestions[randomNumber];
     }
-
-    public void addTestQuestions(){
-        if (isNull(questions)) {
-            questions = new HashSet<Question>();
-        }
-        this.add("Test Question 1","Test Answer 1");
-        this.add("Test Question 2","Test Answer 2");
-        this.add("Test Question 3","Test Answer 3");
-        this.add("Test Question 4","Test Answer 4");
-        this.add("Test Question 5","Test Answer 5");
-        this.add("Test Question 6","Test Answer 6");
-        this.add("Test Question 7","Test Answer 7");
-    }
-
-    public int getSize() {
-        return questions.size();
-    }
 }

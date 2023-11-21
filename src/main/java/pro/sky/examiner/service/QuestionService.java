@@ -14,8 +14,4 @@ public interface QuestionService {
     List<Question> getAll();
 
     Question getRandomQuestion();
-
-    void addTestQuestions();
-
-    int getSize();
 }

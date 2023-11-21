@@ -162,7 +162,7 @@ class JavaQuestionServiceTest {
         int expectedResult = 3;
 
         //Test execution
-        int actualResult = service.getSize();
+        int actualResult = service.getAll().size();
         assertEquals(expectedResult,actualResult);
     }
 }

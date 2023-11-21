@@ -27,7 +27,11 @@ class ExaminerServiceImplTest {
         //Data preparation
 
         //Expected result preparation
-        when(questionService.getSize()).thenReturn(4);
+        when(questionService.getAll()).thenReturn(List.of(
+                new Question("test question1", "test answer1"),
+                new Question("test question2", "test answer2"),
+                new Question("test question3", "test answer3"),
+                new Question("test question4", "test answer4")));
         when(questionService.getRandomQuestion()).thenReturn(
                 new Question("test question1", "test answer1"),
                 new Question("test question2", "test answer2"),
@@ -42,6 +46,6 @@ class ExaminerServiceImplTest {
 
         //Test execution
         List<Question> actualResult = examinerService.getQuestions(3);
-        assertEquals(expectedResult,actualResult);
+        assertEquals(expectedResult, actualResult);
     }
 }

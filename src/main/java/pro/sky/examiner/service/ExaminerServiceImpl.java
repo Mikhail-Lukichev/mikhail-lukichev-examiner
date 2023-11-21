@@ -16,7 +16,8 @@ public class ExaminerServiceImpl implements ExaminerService{
     }
 
     public List<Question> getQuestions(int amount) {
-        if (amount > questionService.getSize()) {
+
+        if (amount > questionService.getAll().size()) {
             throw new IllegalRequestedQuestionsException("Requested questions amount is bigger than number of questions");
         }
         List<Question> returnQuestions = new ArrayList<Question>();
