@@ -6,13 +6,18 @@ import pro.sky.examiner.exception.NoQuestionsException;
 import pro.sky.examiner.model.Question;
 
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class MathQuestionServiceTest {
 
     private final QuestionRepository repository = new MathQuestionRepository();
-    private final QuestionService service = new MathQuestionService(repository);
+    private final Random random = mock(Random.class);
+    private final QuestionService service = new MathQuestionService(repository,random);
 
     @Test
     void addQuestionAnswer_success() {
@@ -121,7 +126,7 @@ class MathQuestionServiceTest {
 
         //Test execution
         Exception exception = assertThrows(NoQuestionsException.class,
-                () -> service.getAll()
+                service::getAll
         );
         assertEquals(expectedMessage, exception.getMessage());
     }
@@ -130,9 +135,13 @@ class MathQuestionServiceTest {
     void getRandomQuestion_success() {
         //Data preparation
         service.add("test question1", "test answer1");
+        service.add("test question2", "test answer2");
+        service.add("test question3", "test answer3");
+        service.add("test question4", "test answer4");
+        when(random.nextInt(anyInt())).thenReturn(1);
 
         //Expected result preparation
-        Question expectedResult = new Question("test question1", "test answer1");
+        Question expectedResult = new Question("test question2", "test answer2");
 
         //Test execution
         Question actualResult = service.getRandomQuestion();
@@ -148,23 +157,8 @@ class MathQuestionServiceTest {
 
         //Test execution
         Exception exception = assertThrows(NoQuestionsException.class,
-                () -> service.getRandomQuestion()
+                service::getRandomQuestion
         );
         assertEquals(expectedMessage, exception.getMessage());
-    }
-
-    @Test
-    void getSize() {
-        //Data preparation
-        service.add("test question1", "test answer1");
-        service.add("test question2", "test answer2");
-        service.add("test question3", "test answer3");
-
-        //Expected result preparation
-        int expectedResult = 3;
-
-        //Test execution
-        int actualResult = service.getSize();
-        assertEquals(expectedResult, actualResult);
     }
 }

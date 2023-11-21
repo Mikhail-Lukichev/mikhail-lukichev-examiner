@@ -15,11 +15,13 @@ import java.util.Random;
 @Qualifier("MathQuestionService")
 public class MathQuestionService implements QuestionService {
 
-    private QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
+    private final Random random;
 
     @Autowired
-    public MathQuestionService(@Qualifier("MathQuestionRepository") QuestionRepository questionRepository) {
+    public MathQuestionService(@Qualifier("MathQuestionRepository") QuestionRepository questionRepository, Random random) {
         this.questionRepository = questionRepository;
+        this.random = random;
     }
 
     public Question add(String question, String answer) {
@@ -39,30 +41,15 @@ public class MathQuestionService implements QuestionService {
     }
 
     public Question getRandomQuestion() {
-        if (questionRepository.getSize() == 0) {
+        if (questionRepository.getAll().isEmpty()) {
             throw new NoQuestionsException("There are no questions");
         }
 
         List<Question> allQuestions = questionRepository.getAll();
 
         // generate a random number
-        Random random = new Random();
-        int randomNumber = random.nextInt(questionRepository.getSize());
+        int randomNumber = random.nextInt(questionRepository.getAll().size());
 
         return allQuestions.get(randomNumber);
-    }
-
-    public void addTestQuestions() {
-        questionRepository.add("Math Test Question 1", "Math Test Answer 1");
-        questionRepository.add("Math Test Question 2", "Math Test Answer 2");
-        questionRepository.add("Math Test Question 3", "Math Test Answer 3");
-        questionRepository.add("Math Test Question 4", "Math Test Answer 4");
-        questionRepository.add("Math Test Question 5", "Math Test Answer 5");
-        questionRepository.add("Math Test Question 6", "Math Test Answer 6");
-        questionRepository.add("Math Test Question 7", "Math Test Answer 7");
-    }
-
-    public int getSize() {
-        return questionRepository.getSize();
     }
 }

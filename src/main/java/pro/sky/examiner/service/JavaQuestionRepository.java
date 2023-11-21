@@ -7,11 +7,7 @@ import pro.sky.examiner.exception.DuplicateQuestionException;
 import pro.sky.examiner.exception.NoQuestionsException;
 import pro.sky.examiner.model.Question;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
 import static java.util.Objects.isNull;
 
@@ -23,7 +19,7 @@ public class JavaQuestionRepository implements QuestionRepository {
 
     public Question add(String question, String answer) {
         if (isNull(questions)) {
-            questions = new HashSet<Question>();
+            questions = new HashSet<>();
         }
         for (Question element : questions) {
             if (Objects.equals(element.getQuestion(), question))
@@ -37,7 +33,7 @@ public class JavaQuestionRepository implements QuestionRepository {
 
     public Question add(Question question) {
         if (isNull(questions)) {
-            questions = new HashSet<Question>();
+            questions = new HashSet<>();
         }
         for (Question element : questions) {
             if (Objects.equals(element.getQuestion(), question.getQuestion()))
@@ -59,13 +55,6 @@ public class JavaQuestionRepository implements QuestionRepository {
         if (isNull(questions)) {
             throw new NoQuestionsException("There are no questions");
         }
-        return questions.stream().collect(Collectors.toList());
-    }
-
-    public int getSize() {
-        if (isNull(questions)) {
-            throw new NoQuestionsException("There are no questions");
-        }
-        return questions.size();
+        return new ArrayList<>(questions);
     }
 }

@@ -12,6 +12,4 @@ public interface QuestionRepository {
     Question remove(Question question);
 
     List<Question> getAll();
-
-    int getSize();
 }

@@ -41,12 +41,6 @@ public class MathQuestionController {
         return service.remove(questionObject);
     }
 
-    @GetMapping(path = "/addTestQuestions")
-    public String addTestQuestions() {
-        service.addTestQuestions();
-        return "Test questions have been added";
-    }
-
     @GetMapping(path = "/getRandomQuestion")
     public Question getRandomQuestion() {
         return service.getRandomQuestion();

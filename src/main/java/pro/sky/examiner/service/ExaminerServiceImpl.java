@@ -16,20 +16,23 @@ public class ExaminerServiceImpl implements ExaminerService {
     private final QuestionService javaQuestionService;
 
     private final QuestionService mathQuestionService;
+    private final Random random;
 
     @Autowired
-    public ExaminerServiceImpl(@Qualifier("JavaQuestionService") QuestionService javaQuestionService, @Qualifier("MathQuestionService") QuestionService mathQuestionService) {
+    public ExaminerServiceImpl(
+            @Qualifier("JavaQuestionService") QuestionService javaQuestionService,
+            @Qualifier("MathQuestionService") QuestionService mathQuestionService,
+            Random random) {
         this.javaQuestionService = javaQuestionService;
         this.mathQuestionService = mathQuestionService;
+        this.random = random;
     }
 
     public List<Question> getQuestions(int amount) {
-        if (amount > (javaQuestionService.getSize() + mathQuestionService.getSize())) {
+        if (amount > (javaQuestionService.getAll().size() + mathQuestionService.getAll().size())) {
             throw new IllegalRequestedQuestionsException("Requested questions amount is bigger than number of questions");
         }
-        List<Question> returnQuestions = new ArrayList<Question>();
-
-        Random random = new Random();
+        List<Question> returnQuestions = new ArrayList<>();
 
         //java questions number
         int javaQuestionsNumber = random.nextInt(amount + 1);
@@ -37,12 +40,12 @@ public class ExaminerServiceImpl implements ExaminerService {
         int mathQuestionsNumber = amount - javaQuestionsNumber;
 
         //check if java or math question number is not bigger than the number of stored questions
-        if (javaQuestionsNumber > javaQuestionService.getSize()) {
-            javaQuestionsNumber = javaQuestionService.getSize();
+        if (javaQuestionsNumber > javaQuestionService.getAll().size()) {
+            javaQuestionsNumber = javaQuestionService.getAll().size();
             mathQuestionsNumber = amount - javaQuestionsNumber;
         }
-        if (mathQuestionsNumber > mathQuestionService.getSize()) {
-            mathQuestionsNumber = mathQuestionService.getSize();
+        if (mathQuestionsNumber > mathQuestionService.getAll().size()) {
+            mathQuestionsNumber = mathQuestionService.getAll().size();
             javaQuestionsNumber = amount - mathQuestionsNumber;
         }
 
