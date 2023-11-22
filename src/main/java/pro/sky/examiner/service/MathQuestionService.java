@@ -4,52 +4,77 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import pro.sky.examiner.exception.NoQuestionsException;
+import pro.sky.examiner.exception.MethodNotAllowedException;
 import pro.sky.examiner.model.Question;
 
 import java.util.List;
 import java.util.Random;
+
+import static java.lang.Math.floor;
+import static java.lang.Math.sqrt;
 
 @Service
 @Component
 @Qualifier("MathQuestionService")
 public class MathQuestionService implements QuestionService {
 
-    private final QuestionRepository questionRepository;
     private final Random random;
 
     @Autowired
-    public MathQuestionService(@Qualifier("MathQuestionRepository") QuestionRepository questionRepository, Random random) {
-        this.questionRepository = questionRepository;
+    public MathQuestionService(Random random) {
         this.random = random;
     }
 
     public Question add(String question, String answer) {
-        return questionRepository.add(question, answer);
+        throw new MethodNotAllowedException("Method not allowed");
     }
 
     public Question add(Question question) {
-        return questionRepository.add(question);
+        throw new MethodNotAllowedException("Method not allowed");
     }
 
     public Question remove(Question question) {
-        return questionRepository.remove(question);
+        throw new MethodNotAllowedException("Method not allowed");
     }
 
     public List<Question> getAll() {
-        return questionRepository.getAll();
+        throw new MethodNotAllowedException("Method not allowed");
     }
 
     public Question getRandomQuestion() {
-        if (questionRepository.getAll().isEmpty()) {
-            throw new NoQuestionsException("There are no questions");
+        //define max value of operands
+        int maxValue = (int)floor(sqrt(Integer.MAX_VALUE));
+
+        //generate operands a and b
+        int a = random.nextInt(maxValue);
+        int b = random.nextInt(maxValue);
+
+        //generate a random math operator
+        int mathOperator = random.nextInt(4);
+
+        String answer = "";
+        String operator = "";
+
+        switch (mathOperator) {
+            case 0:
+                operator = "+";
+                answer = String.valueOf(a + b);
+                break;
+            case 1:
+                operator = "-";
+                answer = String.valueOf(a - b);
+                break;
+            case 2:
+                operator = "*";
+                answer = String.valueOf(a * b);
+                break;
+            case 3:
+                operator = "/";
+                answer = String.valueOf((float) a / b);
+                break;
         }
 
-        List<Question> allQuestions = questionRepository.getAll();
-
-        // generate a random number
-        int randomNumber = random.nextInt(questionRepository.getAll().size());
-
-        return allQuestions.get(randomNumber);
+        String question = a + " " + operator + " " + b + "?";
+        return new Question(question,answer);
     }
 }

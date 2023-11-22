@@ -24,6 +24,7 @@ class ExaminerServiceImplTest {
     @Test
     void getQuestions() {
         //Data preparation
+        when(random.nextInt(anyInt())).thenReturn(2);
         when(javaQuestionService.getAll()).thenReturn(List.of(
                 new Question("java test question1", "java test answer1"),
                 new Question("java test question2", "java test answer2"),
@@ -36,19 +37,12 @@ class ExaminerServiceImplTest {
                 new Question("java test question3", "java test answer3"),
                 new Question("java test question4", "java test answer4")
         );
-        when(mathQuestionService.getAll()).thenReturn(List.of(
-                new Question("math test question1", "math test answer1"),
-                new Question("math test question2", "math test answer2"),
-                new Question("math test question3", "math test answer3"),
-                new Question("math test question4", "math test answer4")
-        ));
         when(mathQuestionService.getRandomQuestion()).thenReturn(
                 new Question("math test question1", "math test answer1"),
                 new Question("math test question2", "math test answer2"),
                 new Question("math test question3", "math test answer3"),
                 new Question("math test question4", "math test answer4")
         );
-        when(random.nextInt(anyInt())).thenReturn(2);
 
         //Expected result preparation
         List<Question> expectedResult = List.of(

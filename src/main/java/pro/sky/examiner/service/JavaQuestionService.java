@@ -48,7 +48,6 @@ public class JavaQuestionService implements QuestionService {
 
         // generate a random number
         int randomNumber = random.nextInt(questionRepository.getAll().size());
-        System.out.println(randomNumber);
 
         return allQuestions.get(randomNumber);
     }

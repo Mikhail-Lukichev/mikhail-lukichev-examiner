@@ -1,11 +1,9 @@
 package pro.sky.examiner.service;
 
 import org.junit.jupiter.api.Test;
-import pro.sky.examiner.exception.DuplicateQuestionException;
-import pro.sky.examiner.exception.NoQuestionsException;
+import pro.sky.examiner.exception.MethodNotAllowedException;
 import pro.sky.examiner.model.Question;
 
-import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,117 +13,61 @@ import static org.mockito.Mockito.when;
 
 class MathQuestionServiceTest {
 
-    private final QuestionRepository repository = new MathQuestionRepository();
     private final Random random = mock(Random.class);
-    private final QuestionService service = new MathQuestionService(repository,random);
+    private final QuestionService service = new MathQuestionService(random);
 
     @Test
-    void addQuestionAnswer_success() {
+    void addQuestionAnswer_withMethodNotAllowedException() {
         //Data preparation
-        service.add("test question", "test answer");
 
         //Expected result preparation
-        List<Question> expectedResult = List.of(new Question("test question", "test answer"));
+        String expectedMessage = "Method not allowed";
 
         //Test execution
-        List<Question> actualResult = service.getAll();
-        assertEquals(expectedResult, actualResult);
-    }
-
-    @Test
-    void addQuestionAnswer_withDuplicateQuestionException() {
-        //Data preparation
-        service.add("test question", "test answer");
-
-        //Expected result preparation
-        String expectedMessage = "Such question already added";
-
-        //Test execution
-        Exception exception = assertThrows(DuplicateQuestionException.class,
+        Exception exception = assertThrows(MethodNotAllowedException.class,
                 () -> service.add("test question", "test answer")
         );
         assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
-    void addQuestionObject_success() {
+    void addQuestionObject_withMethodNotAllowedException() {
         //Data preparation
-        service.add(new Question("test question", "test answer"));
 
         //Expected result preparation
-        List<Question> expectedResult = List.of(new Question("test question", "test answer"));
+        String expectedMessage = "Method not allowed";
 
         //Test execution
-        List<Question> actualResult = service.getAll();
-        assertEquals(expectedResult, actualResult);
-    }
-
-    @Test
-    void addQuestionObject_withDuplicateQuestionException() {
-        //Data preparation
-        service.add(new Question("test question", "test answer"));
-
-        //Expected result preparation
-        String expectedMessage = "Such question already added";
-
-        //Test execution
-        Exception exception = assertThrows(DuplicateQuestionException.class,
+        Exception exception = assertThrows(MethodNotAllowedException.class,
                 () -> service.add(new Question("test question", "test answer"))
         );
         assertEquals(expectedMessage, exception.getMessage());
     }
 
-    @Test
-    void remove_success() {
-        //Data preparation
-        service.add("test question1", "test answer1");
-        service.add("test question2", "test answer2");
-
-        //Expected result preparation
-        List<Question> expectedResult = List.of(new Question("test question1", "test answer1"));
-
-        //Test execution
-        service.remove(new Question("test question2", "test answer2"));
-        List<Question> actualResult = service.getAll();
-        assertEquals(expectedResult, actualResult);
-    }
 
     @Test
-    void remove_withNoQuestionsException() {
+    void remove_withMethodNotAllowedException() {
         //Data preparation
 
         //Expected result preparation
-        String expectedMessage = "There are no questions";
+        String expectedMessage = "Method not allowed";
 
         //Test execution
-        Exception exception = assertThrows(NoQuestionsException.class,
+        Exception exception = assertThrows(MethodNotAllowedException.class,
                 () -> service.remove(new Question("test question", "test answer"))
         );
         assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test
-    void getAll_success() {
-        //Data preparation
-        service.add("test question1", "test answer1");
-
-        //Expected result preparation
-        List<Question> expectedResult = List.of(new Question("test question1", "test answer1"));
-
-        //Test execution
-        List<Question> actualResult = service.getAll();
-        assertEquals(expectedResult, actualResult);
-    }
-
-    @Test
-    void getAll_withNoQuestionsException() {
+    void getAll_withMethodNotAllowedException() {
         //Data preparation
 
         //Expected result preparation
-        String expectedMessage = "There are no questions";
+        String expectedMessage = "Method not allowed";
 
         //Test execution
-        Exception exception = assertThrows(NoQuestionsException.class,
+        Exception exception = assertThrows(MethodNotAllowedException.class,
                 service::getAll
         );
         assertEquals(expectedMessage, exception.getMessage());
@@ -134,31 +76,13 @@ class MathQuestionServiceTest {
     @Test
     void getRandomQuestion_success() {
         //Data preparation
-        service.add("test question1", "test answer1");
-        service.add("test question2", "test answer2");
-        service.add("test question3", "test answer3");
-        service.add("test question4", "test answer4");
-        when(random.nextInt(anyInt())).thenReturn(1);
+        when(random.nextInt(anyInt())).thenReturn(10).thenReturn(20).thenReturn(0);
 
         //Expected result preparation
-        Question expectedResult = new Question("test question2", "test answer2");
+        Question expectedResult = new Question("10 + 20?", "30");
 
         //Test execution
         Question actualResult = service.getRandomQuestion();
         assertEquals(expectedResult, actualResult);
-    }
-
-    @Test
-    void getRandomQuestion_withNoQuestionsException() {
-        //Data preparation
-
-        //Expected result preparation
-        String expectedMessage = "There are no questions";
-
-        //Test execution
-        Exception exception = assertThrows(NoQuestionsException.class,
-                service::getRandomQuestion
-        );
-        assertEquals(expectedMessage, exception.getMessage());
     }
 }
